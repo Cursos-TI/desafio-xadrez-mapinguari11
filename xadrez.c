@@ -1,8 +1,42 @@
 #include <stdio.h>
 
-// Desafio de Xadrez - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
-// O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
+void movimentarBispo(int casas) {
+    
+    if (casas > 0)
+    {
+        for (int i = 0; i < 1; i++) //garante que ocorra apenas uma vez
+        {
+            for (int j = 0; j < 1; j++) //garante que ocorra apenas uma vez
+            {
+                printf("Bispo: Direita - "); // sem \n para que o próximo printf entre na mesma linha, compondo a frase "Bispo: Direita - Cima"
+            }
+            printf("Cima\n");
+        }
+        
+        movimentarBispo(casas - 1); //Chama novamente a função até que casas == 0. Quando entrar no if com casas == 0, a função para de ser executada
+    }
+    
+}
+
+void movimentarTorre(int casas) {
+    if (casas > 0)
+    {
+        printf("Torre - Direita\n");
+
+        movimentarTorre(casas - 1); //Chama novamente a função até que casas == 0. Quando entrar no if com casas == 0, a função para de ser executada
+    }
+    
+}
+
+void movimentarRainha(int casas) {
+    if (casas > 0)
+    {
+        printf("Rainha - Esquerda\n");
+
+        movimentarRainha(casas - 1); //Chama novamente a função até que casas == 0. Quando entrar no if com casas == 0, a função para de ser executada
+    }
+    
+}
 
 int main() {
     // Nível Novato - Movimentação das Peças
@@ -23,72 +57,67 @@ int main() {
     {
     case 1:
     // Implementação de Movimentação do Bispo
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação do Bispo em diagonal.
         printf("Mover bispo na diagonal para cima. Quantas casas? (Digite um número entre 1 e 7) "); //Limitado em 7 casas porque o tabuleiro tem 8x8. Se uma peça está na primeira ou na última linha/coluna, o máximo de casas que ela pode andar é 7 e não 8 
         scanf("%d", &movimentoBispo);
+        printf("\n"); //para separar a saída da peça
 
         if (movimentoBispo < 1 || movimentoBispo > 7) {
             printf("Quantidade de casas inválida. Por favor, recomece.");
         } else {
-            while (i < movimentoBispo)
-            {
-                printf("Bispo: Cima, Direita %d\n", i+1);
-                i++;
-            }
+            movimentarBispo(movimentoBispo);
         }
         
         break;
     case 2:
     // Implementação de Movimentação da Torre
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação da Torre para a direita.
         printf("Mover torre para a direita. Quantas casas? (Digite um número entre 1 e 7) "); //Limitado em 7 casas porque o tabuleiro tem 8x8. Se uma peça está na primeira ou na última linha/coluna, o máximo de casas que ela pode andar é 7 e não 8
         scanf("%d", &movimentoTorre);
+        printf("\n"); //para separar a saída da peça
 
         if (movimentoTorre < 1 || movimentoTorre > 7) {
             printf("Quantidade de casas inválida. Por favor, recomece.");
         } else {
-            do
-            {
-                printf("Torre: Direita - %d\n", i+1);
-                i++;
-            } while (i < movimentoTorre);
-            
+            movimentarTorre(movimentoTorre);
         }
         
         break;
     case 3:
     // Implementação de Movimentação da Rainha
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação da Rainha para a esquerda.
         printf("Mover rainha para a esquerda. Quantas casas? (Digite um número entre 1 e 7) "); //Limitado em 7 casas porque o tabuleiro tem 8x8. Se uma peça está na primeira ou na última linha/coluna, o máximo de casas que ela pode andar é 7 e não 8
         scanf("%d", &movimentoRainha);
+        printf("\n"); //para separar a saída da peça
 
         if (movimentoRainha < 1 || movimentoRainha > 7) {
             printf("Quantidade de casas inválida. Por favor, recomece.");
         } else {
-            for ( i ; i < movimentoRainha; i++)
-            {
-                printf("Rainha: Esquerda - %d\n", i+1);
-            }
+            movimentarRainha(movimentoRainha);
         }
         break;
     case 4:
     // Nível Aventureiro - Movimentação do Cavalo
-    // Sugestão: Utilize loops aninhados para simular a movimentação do Cavalo em L.
-    // Um loop pode representar a movimentação horizontal e outro vertical.
-        printf("Digite 1 para mover o cavalo para baixo e esquerda. ");
+        printf("Digite 1 para mover o cavalo para cima e direita. ");
         scanf("%d", &movimentoCavalo);
+        printf("\n"); //para separar a saída da peça
 
         if(movimentoCavalo != 1) {
             printf("Entrada inválida. Por favor, recomece.\n");
         } else {
-            while(movimentoCavalo == 1) {
-                for (int i = 0; i < 2; i++)
+            //Nível mestre
+            for (int cima = 0, direita = 0; cima < 3 || direita < 2;)
+            {
+                if (cima < 3) 
                 {
-                    printf("Cavalo: Baixo - %d\n", i+1);
+                    cima++;
+                    if (cima == 2) continue; // pula a execução do print na 2ª vez
+                    printf("Cavalo: Cima\n");
+
+                } else if (direita < 2) {
+                    direita++;
+                    printf("Cavalo: Direita\n");
+                    if (direita == 1) break; // força a saída do loop após a primeira vez
                 }
-                printf("Cavalo: Esquerda - %d\n", movimentoCavalo);
-                movimentoCavalo--;
             }
+            
         }
         break;
     default: printf("Escolha inválida. Por favor, recomece.");
